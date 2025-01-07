@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 export default function HomePage() {
     const [count, setCount] = useState(0)

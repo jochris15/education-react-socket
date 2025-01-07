@@ -1,6 +1,18 @@
-import { RouterProvider } from 'react-router-dom';
-import router from './routers/Index';
+import { BrowserRouter, Routes, Route } from "react-router";
+import HomePage from "./views/HomePage";
+import LoginPage from "./views/LoginPage";
+import ChatPage from "./views/ChatPage";
 
 export default function App() {
-  return <RouterProvider router={router} />
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/chat" element={<ChatPage />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  )
 }

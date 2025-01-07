@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
+import { socket } from '../socket/socket'
 
-export default function ChatPage({ socket }) {
+export default function ChatPage() {
     const [messageSent, setMessageSent] = useState("")
     const [messages, setMessages] = useState([])
     const navigate = useNavigate()
@@ -26,7 +27,6 @@ export default function ChatPage({ socket }) {
         // kenapa butuh connect manual? supaya bisa set auth dlu sblm connect
         socket.connect()
 
-
         socket.on("message:update", (newMessage) => {
             setMessages(current => {
                 return [...current, newMessage]
@@ -48,7 +48,7 @@ export default function ChatPage({ socket }) {
                         {messages.map(msg => {
                             return (
                                 <>
-                                    <div className={msg.from == localStorage.username ? "chat chat-start flex flex-col" : "chat chat-end flex flex-col"}>
+                                    <div className={msg.from == localStorage.username ? "chat chat-end flex flex-col" : "chat chat-start flex flex-col"}>
                                         <div>{msg.from == localStorage.username ? "You" : msg.from}</div>
                                         <div className="chat-bubble chat-bubble-accent">{msg.message}</div>
                                     </div>

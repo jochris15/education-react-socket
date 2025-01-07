@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
+import { socket } from "../socket/socket";
 
-export default function HomePage({ socket }) {
+export default function HomePage() {
     const [count, setCount] = useState(0)
 
 
@@ -19,19 +20,13 @@ export default function HomePage({ socket }) {
     useEffect(() => {
         socket.connect() // kalo auto connectnya dibikin false
 
-        socket.on("welcome", (message) => {
-            console.log(message);
-        })
-
         //count
         socket.on("count:update", (newCount) => {
-            console.log({ newCount });
             setCount(newCount)
         })
 
         //clean up supaya ga ada memory leak pas pindah2 halaman
         return () => {
-            socket.off("welcome")
             socket.off("count:update")
             socket.disconnect()
         }

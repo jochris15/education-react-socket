@@ -8,7 +8,7 @@ const { Server } = require('socket.io');
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173"
+    origin: ["http://localhost:5173"]
   }
 });
 
@@ -17,9 +17,6 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-  console.log('a user connected', socket.id);
-  socket.emit("welcome", "Hello Mr/Mrs " + socket.id) // emit ke client yg lagi connect
-
   //count
   socket.on("count:add", (newCount) => {
     // gimana cara kirim ke semua orang yang connect?
@@ -36,10 +33,6 @@ io.on('connection', (socket) => {
   })
 
   //chat
-  if (socket.handshake.auth) {
-    console.log('username : ' + socket.handshake.auth.username);
-  }
-
   socket.on("message:new", (message) => {
     io.emit("message:update", {
       from: socket.handshake.auth.username,
